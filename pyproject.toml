@@ -1,10 +1,19 @@
 [project]
-name = "new-111"
-version = "0.1.0"
-description = "Add your description here"
+name = "pdfnik-schemes"
+version = "1.0.0"
+description = "Common data models (schemas) shared between PDFnik services: Telegram bot and backend."
 readme = "README.md"
 requires-python = ">=3.13"
+
+authors = [
+    { name = "Evil2997", email = "" }
+]
+
 dependencies = [
     "pydantic==2.11.10",
 
 ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
