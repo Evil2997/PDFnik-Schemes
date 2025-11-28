@@ -35,6 +35,3 @@ class BotDocument(BaseModel):
     chat_id: int
     filename: str  # имя PDF для пользователя
     storage_key: str  # "pdf/2025/11/20/uuid.pdf"
-
-# TODO-SHARED-MODELS-001: временная копия контрактов.
-# Позже вынести в общий пакет и переиспользовать и в боте, и в pdf-сервисе.
