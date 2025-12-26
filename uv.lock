@@ -12,9 +12,9 @@ wheels = [
 ]
 
 [[package]]
-name = "new-111"
-version = "0.1.0"
-source = { virtual = "." }
+name = "pdfnik-schemes"
+version = "1.0.0"
+source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
 ]
