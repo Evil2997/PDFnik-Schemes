@@ -3,7 +3,7 @@ name = "pdfnik-schemes"
 version = "1.0.0"
 description = "Common data models (schemas) shared between PDFnik services: Telegram bot and backend."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 
 authors = [
     { name = "Evil2997", email = "" }
