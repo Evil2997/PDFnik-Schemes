@@ -8,19 +8,23 @@ class PdfBlockType(StrEnum):
     TEXT = "text"
     IMAGE = "image"
 
+    # ✅ новые структурные блоки (backend-only этап нормализации)
+    PARAGRAPH = "paragraph"
+    LIST = "list"
+    PRICE_TABLE = "price_table"
+    HEADING = "heading"
+
 
 class TextEntityType(StrEnum):
-    # минимально под текущие требования
-    URL = "url"            # ссылка прямо в тексте (https://...)
-    TEXT_LINK = "text_link"  # "слово" со ссылкой (url отдельно)
-    # можно расширять позже: mention, email, bold, italic, code и т.д.
+    URL = "url"
+    TEXT_LINK = "text_link"
 
 
 class PdfTextEntity(BaseModel):
     type: TextEntityType
     offset: int = Field(ge=0)
     length: int = Field(ge=0)
-    url: str | None = None  # актуально для TEXT_LINK
+    url: str | None = None
 
 
 class PdfRichText(BaseModel):
@@ -33,19 +37,54 @@ class PdfTextBlock(BaseModel):
     content: PdfRichText
 
 
+class PdfParagraphBlock(BaseModel):
+    type: Literal[PdfBlockType.PARAGRAPH] = PdfBlockType.PARAGRAPH
+    content: PdfRichText
+
+
+class PdfHeadingBlock(BaseModel):
+    type: Literal[PdfBlockType.HEADING] = PdfBlockType.HEADING
+    content: PdfRichText
+
+
+class PdfListBlock(BaseModel):
+    type: Literal[PdfBlockType.LIST] = PdfBlockType.LIST
+    items: list[PdfRichText]
+    bullet: str = "•"
+    indent_level: int = 0
+    tight: bool = True  # плотный список vs “воздушный”
+
+
+class PdfPriceRow(BaseModel):
+    name: PdfRichText
+    price: PdfRichText
+
+
+class PdfPriceTableBlock(BaseModel):
+    type: Literal[PdfBlockType.PRICE_TABLE] = PdfBlockType.PRICE_TABLE
+    rows: list[PdfPriceRow]
+
+
 class PdfImageRef(BaseModel):
-    filename: str  # имя файла для пользователя (может быть оригинальным)
-    storage_key: str  # "images/2025/11/20/uuid.jpg"
+    filename: str
+    storage_key: str
 
 
 class PdfImageBlock(BaseModel):
     type: Literal[PdfBlockType.IMAGE] = PdfBlockType.IMAGE
     image: PdfImageRef
-    caption: PdfRichText | None = None  # если фото было с подписью
+    caption: PdfRichText | None = None
 
 
 PdfBlock = Annotated[
-    Union[PdfTextBlock, PdfImageBlock],
+    Union[
+        PdfTextBlock,
+        PdfParagraphBlock,
+        PdfHeadingBlock,
+        PdfListBlock,
+        PdfPriceTableBlock,
+        PdfImageBlock,
+    ],
     Field(discriminator="type"),
 ]
 
