@@ -1,11 +1,24 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+# IDE
+.idea/
+.idea/**
 
-# Virtual environments
-.venv
-.idea
+# Python
+.venv/
+.venv/**
+
+__pycache__/
+__pycache__/**
+
+*.pyc
+*.pyo
+
+# Tool caches
+.ruff_cache/
+.ruff_cache/**
+
+.pytest_cache/
+.pytest_cache/**
+
+# Uploads
+uploads/
+uploads/**
